@@ -1,0 +1,66 @@
+version: '2.0'
+services:
+  db:
+    image: mariadb:${MARIADB_IMAGE_VERSION:-10.5}
+    container_name: seafile-mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWD:-Xbsc7WeaxC}
+      - MYSQL_LOG_CONSOLE=true
+    volumes:
+      - /opt/docker-data/seafile/mysql/db:/var/lib/mysql
+    networks:
+      - seafile-net
+
+  memcached:
+    image: memcached:${MEMCACHED_IMAGE_VERSION:-1.6}
+    container_name: seafile-memcached
+    restart: unless-stopped
+    entrypoint: memcached -m 256
+    networks:
+      - seafile-net
+
+  elasticsearch:
+    image: elasticsearch:${ELASTICSEARCH_IMAGE_VERSION:-7.16.2}
+    container_name: seafile-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: ${ELASTICSEARCH_MEM_LIMIT:-2g}
+    volumes:
+      - /opt/docker-data/seafile/elasticsearch/data:/usr/share/elasticsearch/data
+    networks:
+      - seafile-net
+
+  seafile:
+    image: docker.seadrive.org/seafileltd/seafile-pro-mc:${SEAFILE_IMAGE_VERSION:-latest}
+    container_name: seafile
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      # - "443:443"
+    volumes:
+      - /opt/docker-data/seafile/data:/shared   # Requested, specifies the path to Seafile data persistent store.
+    environment:
+      - DB_HOST=db
+      - DB_ROOT_PASSWD=${DB_ROOT_PASSWD:-Xbsc7WeaxC}
+      - TIME_ZONE=${SEAFILE_TIMEZONE:-Europe/Kaliningrad}
+      - SEAFILE_ADMIN_EMAIL=${SEAFILE_ADMIN_EMAIL:-admin@seafile.local}
+      - SEAFILE_ADMIN_PASSWORD=${SEAFILE_ADMIN_PASSWORD:-TgCer3XNYi}
+      - SEAFILE_SERVER_LETSENCRYPT=false
+      - SEAFILE_SERVER_HOSTNAME=example.seafile.local
+    depends_on:
+      - db
+      - memcached
+      - elasticsearch
+    networks:
+      - seafile-net
+
+networks:
+  seafile-net:
