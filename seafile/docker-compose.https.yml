@@ -2,6 +2,7 @@ services:
   seafile:
     ports:
       # - "80:80"
-      - "443:${SEAFILE_SERVER_HTTPS_PORT:-443}"
+      - "${SEAFILE_SERVER_HTTPS_PORT:-443}:443"
+    environment:
       - SEAFILE_SERVER_LETSENCRYPT=true
       - SEAFILE_SERVER_HOSTNAME=${SEAFILE_SERVER_HOSTNAME}
