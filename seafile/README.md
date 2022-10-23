@@ -14,3 +14,12 @@ docker logs seafile-elasticsearch
 docker logs seafile-mysql
 docker logs seafile-memcached
 ```
+
+Custom override file (`docker-compose.local.yml`) example:
+```yaml
+services:
+  seafile:
+    ports:
+      - "80:80"
+      - "12345:443"
+```
