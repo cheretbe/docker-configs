@@ -46,7 +46,7 @@ services:
     container_name: seafile
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "${SEAFILE_SERVER_HTTP_PORT:-80}:80"
       # - "443:443"
     volumes:
       - /opt/docker-data/seafile/data:/shared
