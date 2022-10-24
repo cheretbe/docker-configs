@@ -1,7 +1,7 @@
 version: '2.0'
 services:
   db:
-    image: mariadb:${MARIADB_IMAGE_VERSION:-10.5}
+    image: mariadb:${MARIADB_IMAGE_VERSION:-10.9.3}
     container_name: seafile-mysql
     restart: unless-stopped
     environment:
@@ -9,6 +9,7 @@ services:
       - MYSQL_LOG_CONSOLE=true
     volumes:
       - /opt/docker-data/seafile/mysql/db:/var/lib/mysql
+      - /opt/docker-data/seafile/mysql/conf:/etc/mysql/conf.d
     networks:
       - seafile-net
 
