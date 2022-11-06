@@ -21,26 +21,26 @@ services:
     networks:
       - seafile-net
 
-  elasticsearch:
-    image: elasticsearch:${ELASTICSEARCH_IMAGE_VERSION:-7.16.2}
-    container_name: seafile-elasticsearch
-    restart: unless-stopped
-    environment:
-      - discovery.type=single-node
-      - bootstrap.memory_lock=true
-      # https://github.com/cheretbe/notes/blob/master/seafile.md#elasticsearch-config
-      - "ES_JAVA_OPTS=${ELASTICSEARCH_JAVA_OPTS:--Xms1g -Xmx1g}"
-    # These settigns are quite dangerous for underpowered VPS
-    # Consider making them configurable if the need arises
-    # ulimits:
-    #   memlock:
-    #     soft: -1
-    #     hard: -1
-    mem_limit: ${ELASTICSEARCH_MEM_LIMIT:-2g}
-    volumes:
-      - /opt/docker-data/seafile/elasticsearch/data:/usr/share/elasticsearch/data
-    networks:
-      - seafile-net
+#  elasticsearch:
+#    image: elasticsearch:${ELASTICSEARCH_IMAGE_VERSION:-7.16.2}
+#    container_name: seafile-elasticsearch
+#    restart: unless-stopped
+#    environment:
+#      - discovery.type=single-node
+#      - bootstrap.memory_lock=true
+#      # https://github.com/cheretbe/notes/blob/master/seafile.md#elasticsearch-config
+#      - "ES_JAVA_OPTS=${ELASTICSEARCH_JAVA_OPTS:--Xms1g -Xmx1g}"
+#    # These settigns are quite dangerous for underpowered VPS
+#    # Consider making them configurable if the need arises
+#    # ulimits:
+#    #   memlock:
+#    #     soft: -1
+#    #     hard: -1
+#    mem_limit: ${ELASTICSEARCH_MEM_LIMIT:-2g}
+#    volumes:
+#      - /opt/docker-data/seafile/elasticsearch/data:/usr/share/elasticsearch/data
+#    networks:
+#      - seafile-net
 
   seafile:
     image: docker.seadrive.org/seafileltd/seafile-pro-mc:${SEAFILE_IMAGE_VERSION:-latest}
@@ -62,7 +62,7 @@ services:
     depends_on:
       - db
       - memcached
-      - elasticsearch
+#      - elasticsearch
     networks:
       - seafile-net
 
