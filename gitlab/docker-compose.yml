@@ -1,0 +1,29 @@
+version: "3"
+services:
+  gitlab:
+    image: "gitlab/gitlab-ce:${GITLAB_CE_IMAGE_VERSION:-latest}"
+    container_name: gitlab
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "50m"
+        max-file: "10"
+    hostname: "${GITLAB_HOSTNAME:-gitlab}"
+    environment:
+      # https://docs.gitlab.com/ee/install/docker.html#pre-configure-docker-container
+      # [!] The settings contained in GITLAB_OMNIBUS_CONFIG aren’t written to the
+      # gitlab.rb configuration file, and are evaluated on load.
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url '${GITLAB_EXTERNAL_URL:-http://localhost}'
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+        gitlab_rails['time_zone']='${GITLAB_TIMEZONE:-Europe/Kaliningrad}'
+    ports:
+      - "${GITLAB_HTTP_PORT:-80}:80"
+      - "${GITLAB_SSH_PORT:-2022}:22"
+    volumes:
+      - "/opt/docker-data/gitlab/config:/etc/gitlab"
+      - "/opt/docker-data/gitlab/logs:/var/log/gitlab"
+      - "/opt/docker-data/gitlab/data:/var/opt/gitlab"
+      # - "/opt/docker-data/gitlab/ssl:/etc/ssl/certs/gitlab"
