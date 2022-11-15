@@ -10,6 +10,8 @@ docker compose images
 docker inspect -f '{{ index .Config.Labels "com.docker.compose.project.config_files" }}' container-name
 
 # Using custom override file
+# [!] Use config to inspect resulting config
+docker compose -f docker-compose.yml -f docker-compose.local.yml config
 docker compose -f docker-compose.yml -f docker-compose.local.yml up -d
 docker compose -f docker-compose.yml -f docker-compose.local.yml up --force-recreate --build -d
 ```
