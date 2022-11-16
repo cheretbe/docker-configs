@@ -1,6 +1,9 @@
 # docker-configs
 
 ```shell
+docker compose config >"local-data/config_$(date +%Y-%m-%d_%H-%M).txt"
+docker compose -f docker-compose.yml -f docker-compose.local.yml config >"local-data/config_$(date +%Y-%m-%d_%H-%M).txt"
+
 docker compose ls --all
 
 cd /opt/docker-files/project
