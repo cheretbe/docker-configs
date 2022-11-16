@@ -10,4 +10,7 @@
 docker exec -it gitlab /bin/bash
 vi /etc/gitlab/gitlab.rb
 gitlab-ctl reconfigure
+
+# View actual GITLAB_OMNIBUS_CONFIG setting
+docker inspect -f '{{ .Config.Env }}' gitlab
 ```
