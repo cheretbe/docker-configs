@@ -14,3 +14,16 @@ gitlab-ctl reconfigure
 # View actual GITLAB_OMNIBUS_CONFIG setting
 docker inspect -f '{{ .Config.Env }}' gitlab
 ```
+
+`docker-compose.local.yml` example:
+```yaml
+services:
+  gitlab:
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://something'
+        nginx['listen_https'] = true
+    # 4Gb with no swap
+    mem_limit: 4g
+    memswap_limit: 4g
+```
