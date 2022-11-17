@@ -4,6 +4,9 @@
 docker compose config >"local-data/config_$(date +%Y-%m-%d_%H-%M).txt"
 docker compose -f docker-compose.yml -f docker-compose.local.yml config >"local-data/config_$(date +%Y-%m-%d_%H-%M).txt"
 
+docker compose config | colordiff - local-data/config_2022-11-16_12-47.txt
+docker compose -f docker-compose.yml -f docker-compose.local.yml config | colordiff - local-data/config_2022-11-16_12-47.txt
+
 docker compose ls --all
 
 cd /opt/docker-files/project
