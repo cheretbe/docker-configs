@@ -2,7 +2,7 @@
 * https://www.czerniga.it/2021/11/14/how-to-install-gitlab-using-docker-compose/
 * https://www.danieleagle.com/2017/01/gitlab-ce-with-https-using-docker/
     * https://github.com/danieleagle/gitlab-https-docker/blob/master/docker-compose.yml
-* :waning: Running GitLab in a memory-constrained environment: https://docs.gitlab.com/omnibus/settings/memory_constrained_envs.html
+* :warning: Running GitLab in a memory-constrained environment: https://docs.gitlab.com/omnibus/settings/memory_constrained_envs.html
 ```shell
 # Configuration
 # [!] GITLAB_OMNIBUS_CONFIG in compose file will take precedence over
