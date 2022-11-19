@@ -13,6 +13,11 @@ gitlab-ctl reconfigure
 
 # View actual GITLAB_OMNIBUS_CONFIG setting
 docker inspect -f '{{ .Config.Env }}' gitlab
+
+# View generated password (user name is 'root')
+docker exec gitlab grep 'Password:' /etc/gitlab/initial_root_password
+```
+
 ```
 
 `docker-compose.local.yml` example:
