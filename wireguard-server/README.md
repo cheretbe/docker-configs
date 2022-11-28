@@ -1,5 +1,6 @@
 * https://github.com/linuxserver/docker-wireguard
 * https://github.com/ngoduykhanh/wireguard-ui
+* :warning: [password gotcha](#password-gotcha)
 
 Server config
 ```shell
@@ -60,3 +61,46 @@ EOF
 systemctl enable wgui-config.{path,service}
 systemctl start wgui-config.{path,service}
 ```
+
+### Password gotcha
+
+* Currently there is no way to change password using UI: https://github.com/ngoduykhanh/wireguard-ui/issues/8
+
+```shell
+docker run --rm -it golang
+
+# This is important to avoid 'go.mod exists but should not' error
+cd src
+
+cat > hash.go<< EOF
+package main
+
+import (
+        "encoding/base64"
+        "fmt"
+        "golang.org/x/crypto/bcrypt"
+)
+
+func HashPassword(plaintext string) (string, error) {
+        bytes, err := bcrypt.GenerateFromPassword([]byte(plaintext), 14)
+        if err != nil {
+                return "", fmt.Errorf("cannot hash password: %w", err)
+        }
+        return base64.StdEncoding.EncodeToString(bytes), nil
+}
+
+func main() {
+        var pwd string
+        fmt.Println("Enter password:")
+        fmt.Scanln(&pwd)
+        hash, err := HashPassword(pwd)
+        if err == nil { fmt.Println(hash) }
+}
+EOF
+
+go mod init golang.org
+go mod tidy
+go run hash.go
+```
+
+Update `password_hash` value in `/opt/docker-data/wireguard-server/ui-db/server/users.json`
