@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  apt-cacher-ng:
+    image: "yeticraft/docker-apt-cacher-ng:amd64"
+    container_name: apt-cacher-ng
+    # https://docs.docker.com/compose/compose-file/#restart
+    restart: unless-stopped
+    ports:
+      - "3142:3142"
+    volumes:
+      - /opt/docker-data/apt-cacher-ng:/var/cache/apt-cacher-ng
