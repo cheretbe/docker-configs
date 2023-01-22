@@ -6,7 +6,6 @@ services:
     container_name: docker-registry-proxy
     # https://docs.docker.com/compose/compose-file/#restart
     restart: unless-stopped
-    network_mode: host
     env_file: # Contains REGISTRIES and AUTH_REGISTRIES
       - ./registries.env
     logging:
