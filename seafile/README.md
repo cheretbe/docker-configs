@@ -23,7 +23,17 @@ services:
 * :warning: Review upgrade notes https://manual.seafile.com/docker/upgrade/upgrade_docker/
 
 ```shell
-# TODO: try https://github.com/containers/skopeo to inspect metadata without pulling
+# Find out the latest version
+# Option 1
+# https://github.com/containers/skopeo
+docker run --rm -it alpine:latest
+apk add skopeo jq
+skopeo login docker.seadrive.org -u seafile -p zjkmid6rQibdZ=uJMuWS
+skopeo inspect --config docker://docker.seadrive.org/seafileltd/seafile-pro-mc:latest | jq '.config.Env'
+# SEAFILE_VERSION=9.0.14
+docker pull docker.seadrive.org/seafileltd/seafile-pro-mc:9.0.14
+
+# Option 2 (less efficient)
 docker pull docker.seadrive.org/seafileltd/seafile-pro-mc:latest
 docker image inspect -f '{{ range .ContainerConfig.Env }}{{ println . }}{{ end }}' docker.seadrive.org/seafileltd/seafile-pro-mc:latest | grep SEAFILE_VERSION
 # SEAFILE_VERSION=9.0.13
