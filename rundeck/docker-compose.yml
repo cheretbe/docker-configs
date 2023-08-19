@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  rundeck:
+    image: rundeck/rundeck:${RUNDECK_IMAGE_VERSION:-4.12.1}
+    container_name: rundeck
+    # https://docs.docker.com/compose/compose-file/#restart
+    restart: unless-stopped
+    ports:
+      - "4440:4440"
+    # By default JVM will utilize up to 75% of the container limit.
+    # https://docs.rundeck.com/docs/administration/configuration/docker.html#control-jvm-heap-allocation
+    mem_limit: ${RUNDECK_MEM_LIMIT:-1g}
+    memswap_limit: ${RUNDECK_MEM_LIMIT:-1g}
+    environment:
+      RUNDECK_GRAILS_URL: ${RUNDECK_GRAILS_URL:-http://127.0.0.1:4440}
+    volumes:
+      - /opt/docker-data/rundeck/server_data:/home/rundeck/server/data
+      - /opt/docker-data/rundeck/config:/home/rundeck/config
+      - /opt/docker-data/rundeck/realm.properties:/home/rundeck/server/config/realm.properties
