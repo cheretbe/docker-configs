@@ -4,6 +4,7 @@
     * https://github.com/danieleagle/gitlab-https-docker/blob/master/docker-compose.yml
 * :warning: Running GitLab in a memory-constrained environment: https://docs.gitlab.com/omnibus/settings/memory_constrained_envs.html
     * :warning::warning: `gitaly['cgroups_*` settings in a Docker container cause gitaly to fail (probably dind is needed?)
+    * :warning: `gitaly['concurrency']` has been deprecated since 15.10 and was removed in 16.0 (add example from `gitlab_runner_config` role when moving this to notes)
 ```shell
 # Configuration
 # [??] GITLAB_OMNIBUS_CONFIG in compose file will take precedence over /etc/gitlab/gitlab.rb in the container
