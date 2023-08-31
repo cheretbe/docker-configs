@@ -27,8 +27,6 @@ docker exec -t gitlab gitlab-ctl show-config | grep 'external_url'
 docker exec gitlab grep 'Password:' /etc/gitlab/initial_root_password
 ```
 
-```
-
 `docker-compose.local.yml` example:
 ```yaml
 services:
