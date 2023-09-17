@@ -17,4 +17,4 @@ services:
     volumes:
       - /opt/docker-data/rundeck/server_data:/home/rundeck/server/data
       - /opt/docker-data/rundeck/config:/home/rundeck/config
-      - /opt/docker-data/rundeck/realm.properties:/home/rundeck/server/config/realm.properties
+      # - /opt/docker-data/rundeck/realm.properties:/home/rundeck/server/config/realm.properties
