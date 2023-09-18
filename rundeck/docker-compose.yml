@@ -10,6 +10,9 @@ services:
       - "4440:4440"
     # By default JVM will utilize up to 75% of the container limit.
     # https://docs.rundeck.com/docs/administration/configuration/docker.html#control-jvm-heap-allocation
+    # Memory requirement is 4GB, but experimentally the minimal working value was
+    # found established 1GB (tested on version 4.12.1)
+    # https://docs.rundeck.com/docs/administration/install/system-requirements.html
     mem_limit: ${RUNDECK_MEM_LIMIT:-1g}
     memswap_limit: ${RUNDECK_MEM_LIMIT:-1g}
     environment:
@@ -17,4 +20,4 @@ services:
     volumes:
       - /opt/docker-data/rundeck/server_data:/home/rundeck/server/data
       - /opt/docker-data/rundeck/config:/home/rundeck/config
-      # - /opt/docker-data/rundeck/realm.properties:/home/rundeck/server/config/realm.properties
+      - /opt/docker-data/rundeck/config/realm.properties:/home/rundeck/server/config/realm.properties
