@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  cronicle:
+    image: bluet/cronicle-docker:latest
+    container_name: cronicle
+    hostname: cronicle
+    # https://docs.docker.com/compose/compose-file/#restart
+    restart: unless-stopped
+    environment:
+      - TZ=${CRONICLE_TIMEZONE:-Europe/Kaliningrad}
+      - CRONICLE_base_app_url=http://cronicle.local.test/
+      # - CRONICLE_server_comm_use_hostnames=1
+    ports:
+      - "3012:3012"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/docker-data/cronicle/data:/opt/cronicle/data
+      - /opt/docker-data/cronicle/logs:/opt/cronicle/logs
+      - /opt/docker-data/cronicle/plugins:/opt/cronicle/plugins
+      - /opt/docker-data/cronicle/app:/app
