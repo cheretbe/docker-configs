@@ -5,11 +5,6 @@ services:
     network_mode: host
     # This makes IPv6 easier; see below
     restart: unless-stopped
-    cap_add:
-        # Capability to change user ID; needed for using PUID
-      - SETUID
-        # Capability to change group ID; needed for using PGID
-      - SETGID
     cap_drop:
       # Drop all other capabilities
       - all
