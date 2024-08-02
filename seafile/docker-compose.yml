@@ -7,6 +7,7 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWD:-Xbsc7WeaxC}
       - MYSQL_LOG_CONSOLE=true
+      - MARIADB_AUTO_UPGRADE=${MARIADB_AUTO_UPGRADE:-0}
     volumes:
       - /opt/docker-data/seafile/mysql/db:/var/lib/mysql
       - /opt/docker-data/seafile/mysql/conf:/etc/mysql/conf.d
